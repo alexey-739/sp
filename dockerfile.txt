@@ -1,0 +1,5 @@
+FROM almalinux
+RUN yum update -y
+COPY baa.sh . 
+RUN chmod ugo+x baa.sh
+CMD ./baa.sh
