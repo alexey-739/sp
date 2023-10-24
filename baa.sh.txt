@@ -1,49 +1,53 @@
-echo "Программа поиска пакетов"
-echo "Программа предназначена для проверки наличия введенного покета и его установки, если пакет не найден"
-echo "Разработчик: Большаков Алексей 739-1"
-echo "---------------------------------"
-echo "Приятного пользования!!!"
-echo "---------------------------------"
-proverka=0
-while [ $proverka -eq 0 ]
+while :
 do
- read -p "Введите название пакета: " package
+ echo "Программа поиска пакетов"
+ echo "Разработчик: Большаков А. А. 739-1"
+ echo "__________________________________"
+ echo "Введите название пакета: "
+ read package
+ echo "Поиск..."
  if yum list installed $package
  then
+ echo "Информация:"
    yum info $package
  else
-   echo "Пакет не установлен"
+   echo "Не установлен"
    if yum list $package
    then
-     while [ $proverka -eq 0 ]
+     while :
      do
-       read -p "Введенный вами $package был найден в репозиториях, хотите ли его установить? [y;n]" otvet1
-       if [[ "$otvet1" == "y" ]]; then
+	echo "Найден в репозиториях. Установить? [y/n]"
+       read answer
+       if [ "$answer" = "y" ] 
+	then
+         echo "Установка..."
          yum install -y $package
          break
-       elif [[ "$otvet1" == "n" ]]; then
+       elif [ "$answer" = "n" ]
+	then
+         echo "Отмена"
          break
-       elif [[ -z $otvet1 ]]; then
-         break
-       else
-         echo "Введенное вами значение не корректно, введите y или n"
-       fi
+       else 
+         echo "Ошибка ввода. Установить? [y/n]" 
+       fi   
      done
-    else
-      echo "Введенный вами $paket не найден в репозиториях"
+    else 
+      echo "Не найден" 
     fi
- fi
- while [ $proverka -eq 0 ]
+ fi 
+ while :
  do
-   read -p "Вы хотите продолжить? [y;n]" otvet2
-       if [[ "$otvet2" == "y" ]]; then
+ echo "Продолжить? [y/n]"
+   read answer
+       if [ "$answer" = "y" ]
+	then
          break
-       elif [[ "$otvet2" == "n" ]]; then
+       elif [ "$answer" = "n" ] 
+	then
+	echo "Выход"  
          exit
-       elif [[ -z $otvet2 ]]; then
-         exit
-       else
-         echo "Введенное вами значение не корректно, введите y или n"
+       else 
+         echo "Ошибка ввода. Продолжить?[y/n]" 
        fi
-  done
+  done        
 done
